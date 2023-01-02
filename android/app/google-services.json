@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "636348722005",
+    "project_id": "coincini-90994",
+    "storage_bucket": "coincini-90994.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:636348722005:android:859b5811b845f325de9ddc",
+        "android_client_info": {
+          "package_name": "com.coincini1"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "636348722005-c1t28rkvpr6evi1juo4fn5d24ph51q0j.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCqyrJ9HOsVjNz6qJuqjK-v0VAoi__jtks"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "636348722005-c1t28rkvpr6evi1juo4fn5d24ph51q0j.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
