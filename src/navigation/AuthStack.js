@@ -11,9 +11,8 @@ const Tab = createBottomTabNavigator();
 
 const BottomTabStack = () => {
   return (
-    <Tab.Navigator
-      initialRouteName="LoginScreen"
-      screenOptions={{headerShown:false, activeTintColor: '#f00', inactiveTintColor: '#fff',  style: { height: 70,  backgroundColor: '#000',  padding: 10, }, labelStyle: {  textAlign: 'center',     fontSize: 18,  }, }}>
+    <Tab.Navigator initialRouteName="LoginScreen"
+      screenOptions={{headerShown:false,tabBarActiveTintColor:"#f00",tabBarInactiveTintColor: 'grey',  style: { height: 70,  backgroundColor: '#000',  padding: 10, }, labelStyle: {  textAlign: 'center', fontSize: 18,  }, }}>
       <Tab.Screen name="LoginScreen"  component={LoginScreen} options={{ tabBarLabel: 'Giriş',tabBarIcon: ({color, size}) => ( <Icon name="user-shield" color={color} size={size} />),}} />
       <Tab.Screen name="SignUpScreen" component={SignUpScreen} options={{ tabBarLabel: 'Yeni Üyelik', tabBarIcon: ({color, size}) => (<Icon name="user-plus" color={color} size={size} /> ),}}/>
       <Tab.Screen name="ResetPasswordScreen" component={ResetPasswordScreen} options={{ tabBarLabel: 'Şifre Sıfırla', tabBarIcon: ({color, size}) => ( <Icon name="key" color={color} size={size} /> ), }} />

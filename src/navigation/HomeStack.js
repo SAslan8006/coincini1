@@ -16,7 +16,7 @@ const BottomTabStack = () => {
   return (
     <Tab.Navigator
       initialRouteName="HomeScreen"
-      tabBarOptions={{
+      screenOptions={{
         activeTintColor: '#f00',
         inactiveTintColor: '#fff',
         style: {

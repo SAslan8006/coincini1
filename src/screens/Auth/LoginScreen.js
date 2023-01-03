@@ -10,21 +10,11 @@ const LoginScreen = ({ navigation }) => {
   const { login } = useContext(AuthContext);
   const loginValidationSchema = yup.object().shape({
     email: yup.string().required('Boş geçilemez').email('Geçerli bir email adresi giriniz!'),
-    password: yup
-      .string()
-      .required('Boş geçilemez')
-      .min(6, ({ min }) => 'Şifre en az ' + min + ' karakter olmalıdır!'),
+    password: yup.string().required('Boş geçilemez').min(6, ({ min }) => 'Şifre en az ' + min + ' karakter olmalıdır!'),
   });
   return (
     <SafeAreaView style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <View
-        style={{
-          width: '80%',
-          alignItems: 'center',
-          padding: 10,
-          backgroundColor: '#ddd',
-          borderRadius: 30,
-        }}>
+      <View style={{ width: '80%', alignItems: 'center', padding: 10, backgroundColor: '#ddd', borderRadius: 30 }}>
         <Text style={{ fontSize: 24 }}>Üye Girişi</Text>
         <Formik validationSchema={loginValidationSchema} initialValues={{ email: '', password: '' }} onSubmit={values => login(values.email, values.password)}>
           {({ handleChange, handleBlur, handleSubmit, values, errors, isValid }) => (
@@ -32,16 +22,7 @@ const LoginScreen = ({ navigation }) => {
               <TextInput
                 name="email"
                 placeholder="Email Adresiniz"
-                style={{
-                  height: 50,
-                  width: '90%',
-                  padding: 10,
-                  margin: 10,
-                  borderColor: '#000',
-                  borderWidth: 1,
-                  borderRadius: 10,
-                  fontSize: 16,
-                }}
+                style={{ height: 50, width: '90%', padding: 10, margin: 10, borderColor: '#000', borderWidth: 1, borderRadius: 10, fontSize: 16 }}
                 onChangeText={handleChange('email')}
                 onBlur={handleBlur('email')}
                 value={values.email}
@@ -64,12 +45,7 @@ const LoginScreen = ({ navigation }) => {
                 <TextInput
                   name="password"
                   placeholder="Şifreniz"
-                  style={{
-                    height: 50,
-                    width: '70%',
-                    borderWidth: 0,
-                    fontSize: 16,
-                  }}
+                  style={{ height: 50, width: '70%', borderWidth: 0, fontSize: 16 }}
                   onChangeText={handleChange('password')}
                   onBlur={handleBlur('password')}
                   value={values.password}

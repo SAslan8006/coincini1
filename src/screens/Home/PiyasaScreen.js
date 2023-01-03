@@ -1,11 +1,5 @@
-import React, {useState, useEffect} from 'react';
-import {
-  View,
-  Text,
-  SafeAreaView,
-  ScrollView,
-  TouchableOpacity,
-} from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, SafeAreaView, ScrollView, TouchableOpacity } from 'react-native';
 import Loading from '../../utils/Loading';
 
 const PiyasaScreen = () => {
@@ -30,7 +24,7 @@ const PiyasaScreen = () => {
   }, []);
 
   return (
-    <SafeAreaView style={{flex: 1}}>
+    <SafeAreaView style={{ flex: 1 }}>
       {isLoading ? (
         <Loading />
       ) : (
@@ -40,11 +34,11 @@ const PiyasaScreen = () => {
             justifyContent: 'center',
             alignItems: 'center',
           }}>
-          <View style={{margin: 10}}>
-            <Text style={{fontSize: 32, color: '#f00'}}>Piyasalar</Text>
+          <View style={{ margin: 10 }}>
+            <Text style={{ fontSize: 32, color: '#f00' }}>Piyasalar</Text>
           </View>
 
-          <ScrollView style={{flex: 1, width: '100%'}}>
+          <ScrollView style={{ flex: 1, width: '100%' }}>
             {Object.keys(data).map((key, index) => (
               <TouchableOpacity
                 key={index.toString()}
@@ -59,27 +53,20 @@ const PiyasaScreen = () => {
                   justifyContent: 'space-between',
                   alignItems: 'center',
                 }}>
-                <View style={{flex: 1}}>
-                  <Text style={{textAlign: 'left', fontSize: 18}}>{key}</Text>
+                <View style={{ flex: 1 }}>
+                  <Text style={{ textAlign: 'left', fontSize: 18 }}>{key}</Text>
                 </View>
 
-                <View style={{flex: 1}}>
-                  <Text style={{textAlign: 'right', fontSize: 18}}>
-                    {data[key].last}
-                  </Text>
+                <View style={{ flex: 1 }}>
+                  <Text style={{ textAlign: 'right', fontSize: 18 }}>{data[key].last}</Text>
                 </View>
 
-                <View style={{flex: 1}}>
+                <View style={{ flex: 1 }}>
                   <Text
                     style={{
                       textAlign: 'right',
                       fontSize: 18,
-                      color:
-                        data[key].percentChange > 0
-                          ? '#0f0'
-                          : data[key].percentChange < 0
-                          ? '#f00'
-                          : '#000',
+                      color: data[key].percentChange > 0 ? '#0f0' : data[key].percentChange < 0 ? '#f00' : '#000',
                     }}>
                     {data[key].percentChange}
                   </Text>
