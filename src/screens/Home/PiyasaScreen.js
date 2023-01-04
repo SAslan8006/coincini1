@@ -25,7 +25,7 @@ const PiyasaScreen = () => {
   return (
     <SafeAreaView style={{ flex: 1 }}>
       {isLoading ? (
-        <Loading />
+        <Loading /> 
       ) : (
         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
           <View style={{ margin: 10 }}>
