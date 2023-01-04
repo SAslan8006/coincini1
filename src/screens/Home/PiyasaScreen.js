@@ -20,7 +20,6 @@ const PiyasaScreen = () => {
   };
   useEffect(() => {
     getData();
-    return null;
   }, []);
 
   return (
@@ -28,12 +27,7 @@ const PiyasaScreen = () => {
       {isLoading ? (
         <Loading />
       ) : (
-        <View
-          style={{
-            flex: 1,
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}>
+        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
           <View style={{ margin: 10 }}>
             <Text style={{ fontSize: 32, color: '#f00' }}>Piyasalar</Text>
           </View>
@@ -42,17 +36,7 @@ const PiyasaScreen = () => {
             {Object.keys(data).map((key, index) => (
               <TouchableOpacity
                 key={index.toString()}
-                style={{
-                  flexDirection: 'row',
-                  width: '95%',
-                  height: 60,
-                  borderWidth: 1,
-                  margin: 10,
-                  borderRadius: 20,
-                  padding: 10,
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
-                }}>
+                style={{ flexDirection: 'row', width: '95%', height: 60, borderWidth: 1, margin: 10, borderRadius: 20, padding: 10, justifyContent: 'space-between', alignItems: 'center' }}>
                 <View style={{ flex: 1 }}>
                   <Text style={{ textAlign: 'left', fontSize: 18 }}>{key}</Text>
                 </View>
@@ -62,14 +46,7 @@ const PiyasaScreen = () => {
                 </View>
 
                 <View style={{ flex: 1 }}>
-                  <Text
-                    style={{
-                      textAlign: 'right',
-                      fontSize: 18,
-                      color: data[key].percentChange > 0 ? '#0f0' : data[key].percentChange < 0 ? '#f00' : '#000',
-                    }}>
-                    {data[key].percentChange}
-                  </Text>
+                  <Text style={{ textAlign: 'right', fontSize: 18, color: data[key].percentChange > 0 ? '#0f0' : data[key].percentChange < 0 ? '#f00' : '#000' }}>{data[key].percentChange}</Text>
                 </View>
               </TouchableOpacity>
             ))}
