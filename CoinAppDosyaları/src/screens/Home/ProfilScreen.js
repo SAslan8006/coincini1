@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 import {AuthContext} from '../../navigation/AuthProvider';
 import firestore from '@react-native-firebase/firestore';
-import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
+import {launchCamera,  } from 'react-native-image-picker';
 import storage from '@react-native-firebase/storage';
 import Loading from '../../utils/Loading';
 import Icon from 'react-native-vector-icons/FontAwesome5';

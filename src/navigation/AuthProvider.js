@@ -1,12 +1,12 @@
-import React, {useState, useEffect, createContext} from 'react';
-import {View, Text} from 'react-native';
+import React, { useState, useEffect, createContext } from 'react';
+import { View, Text } from 'react-native';
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 
-import {async} from 'node-stream-zip';
+import { async } from 'node-stream-zip';
 
 export const AuthContext = createContext({});
-export const AuthProvider = ({children}) => {
+export const AuthProvider = ({ children }) => {
   const usersColl = firestore().collection('users');
   const [user, setUser] = useState(null);
   return (
@@ -16,7 +16,9 @@ export const AuthProvider = ({children}) => {
         setUser,
         login: async (email, password) => {
           try {
-            await auth().signInWithEmailAndPassword(email, password).then(async result => {
+            await auth()
+              .signInWithEmailAndPassword(email, password)
+              .then(async result => {
                 if (!result.user.emailVerified) {
                   result.user.sendEmailVerification();
                   alert('Lütfen email adresinize gelen maili onaylayınız...');
@@ -51,9 +53,7 @@ export const AuthProvider = ({children}) => {
                   Phone: phone,
                 });
 
-                alert(
-                  'Üyelik Oluşturuldu! Lütfen email adresinize gelen maili onaylayınız...',
-                );
+                alert('Üyelik Oluşturuldu! Lütfen email adresinize gelen maili onaylayınız...');
                 navigation.navigate('LoginScreen');
               });
           } catch (error) {

@@ -19,15 +19,8 @@ const BottomTabStack = () => {
       screenOptions={{
         activeTintColor: '#f00',
         inactiveTintColor: '#fff',
-        style: {
-          height: 70,
-          backgroundColor: '#000',
-          padding: 10,
-        },
-        labelStyle: {
-          textAlign: 'center',
-          fontSize: 18,
-        },
+        style: { height: 70, backgroundColor: '#000', padding: 10 },
+        labelStyle: { textAlign: 'center', fontSize: 18 },
       }}>
       <Tab.Screen
         name="HomeScreen"
