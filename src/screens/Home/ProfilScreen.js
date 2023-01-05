@@ -33,10 +33,26 @@ const ProfilScreen = () => {
     <SafeAreaView style={{ flex: 1, alignItems: 'center' }}>
       {isLoading ? (
         <Loading />
-      ) : (
+      ) : ( 
         <View style={{ flex: 1, width: '100%', justifyContent: 'center', alignItems: 'center' }}>
-          <TouchableOpacity style={{ width: 100, height: 100, borderRadius: 40, margin: 10 }}>
-            <Image source={{ uri: currentUser.ImageUrl }} imageStyle={{ borderRadius: 50 }} style={{ flex: 1 }}></Image>
+        <TouchableOpacity
+            onPress={() => setShowModal(!showModal)}
+            style={{
+              width: 100,
+              height: 100,
+              borderRadius: 50,
+              margin: 10,
+              backgroundColor:"red"
+            }}>
+            <ImageBackground
+              source={{
+                uri: currentUser.ImageUrl,
+              }}
+              imageStyle={{ borderRadius: 50 }}
+              style={{
+                flex: 1,
+              }}></ImageBackground>
+
             <View
               style={{
                 position: 'absolute',
