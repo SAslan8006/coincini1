@@ -40,6 +40,9 @@ const ProfilScreen = () => {
 
       const task = reference.putFile(media.assets[0].uri);
 
+      setUploadTask(task);
+      task.on('state_changed',taskSnapshot=>{setUploadTaskSnapshot(taskSnapshot)});
+
       task.then(async () => {
         const downloadURL = await reference.getDownloadURL();
         setDownloadURL(downloadURL);

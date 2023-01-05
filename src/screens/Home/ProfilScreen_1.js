@@ -1,49 +1,47 @@
+import { View, Text, Button, SafeAreaView, TouchableOpacity, TextInput, Image, Modal, ActivityIndicator } from 'react-native';
 import React, { useContext, useState, useEffect } from 'react';
-import { View, Text, SafeAreaView, ScrollView, TouchableOpacity, TextInput, Button, ImageBackground, Modal } from 'react-native';
 import { AuthContext } from '../../navigation/AuthProvider';
 import firestore from '@react-native-firebase/firestore';
-import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
-import storage from '@react-native-firebase/storage';
 import Loading from '../../utils/Loading';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import IconAD from 'react-native-vector-icons/AntDesign';
+import Icon2 from 'react-native-vector-icons/MaterialIcons';
 
-import { ActivityIndicator } from 'react-native-paper';
+import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
+import storage from '@react-native-firebase/storage';
 
 const ProfilScreen = () => {
-  const [isLoading, setIsloading] = useState(false);
+  const usersColl = firestore().collection('users');
+  const { signout, user } = useContext(AuthContext);
+  const [currentUser, setCurrentUser] = useState({});
+  const [currentUserName, setCurrentUserName] = useState('');
+
+  const [isLoading, setIsLoading] = useState(false);
+  const [showModal, setShowModal] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
+  const [isPaused, setIsPaused] = useState(false);
   const [downloadURL, setDownloadURL] = useState();
   const [uploadTask, setUploadTask] = useState();
   const [uploadTaskSnapshot, setUploadTaskSnapshot] = useState({});
-  const {signout, user} = useContext(AuthContext);
-  const [currentUser, setCurrentUser] = useState({});
-  const [currentUserName, setCurrentUserName] = useState('');
-  const usersColl = firestore().collection('users');
-  const [showModal, setShowModal] = useState(false);
 
-  
   const onTakePhoto = async () => {
-    await launchCamera({ mediaType: 'photo', saveToPhotos: true }, onMediaSelect);
+    await launchCamera({ mediaType: 'photo', saveToPhotos: true, quality: 0.8 }, onMediaSelect);
   };
 
   const onSelectImagePress = async () => {
-    await launchImageLibrary({ mediaType: 'photo', saveToPhotos: true }, onMediaSelect);
+    await launchImageLibrary({ mediaType: 'photo', saveToPhotos: true, quality: 0.8 }, onMediaSelect);
   };
 
   const onMediaSelect = async media => {
     if (!media.didCancel) {
       setIsUploading(true);
-      const reference = storage().ref('Uploads/Users/' + media.assets[0].fileName);
+      const ref = storage().ref('Uploads/Users/' + media.assets[0].fileName);
 
-      const task = reference.putFile(media.assets[0].uri);
+      const task = ref.putFile(media.assets[0].uri);
 
       task.then(async () => {
-        const downloadURL = await reference.getDownloadURL();
+        const downloadURL = await ref.getDownloadURL();
         setDownloadURL(downloadURL);
-        await usersColl.doc(user.uid).update({
-          ImageUrl: downloadURL,
-        });
+        await usersColl.doc(user.uid).update({ ImageUrl: downloadURL });
         setIsUploading(false);
         setUploadTaskSnapshot({});
         setShowModal(false);
@@ -63,36 +61,30 @@ const ProfilScreen = () => {
   };
 
   const updateCurrentUser = async () => {
-    setIsloading(true);
-
-    await usersColl.doc(user.uid).update({
-      Name: currentUserName,
-    });
-
-    await user.updateProfile({
-      displayName: currentUserName,
-    });
+    setIsLoading(true);
+    await usersColl.doc(user.uid).update({ Name: currentUserName });
+    await user.updateProfile({ displayName: currentUserName });
     getCurrentUser();
-    setIsloading(false);
+    setIsLoading(false);
   };
 
   useEffect(() => {
-    setIsloading(true);
+    setIsLoading(true);
     getCurrentUser();
-    setIsloading(false);
+    setIsLoading(false);
     return null;
   }, []);
 
   return (
     <SafeAreaView style={{ flex: 1, alignItems: 'center' }}>
       {isLoading ? (
-        <Loading />
+        <Loading></Loading>
       ) : (
         <View
           style={{
             flex: 1,
-            width: '100%',
             justifyContent: 'center',
+            width: '100%',
             alignItems: 'center',
           }}>
           <Modal
@@ -109,7 +101,7 @@ const ProfilScreen = () => {
                 justifyContent: 'center',
                 backgroundColor: '#eee',
                 padding: 10,
-                margin: 20,
+                margin: 10,
               }}>
               <TouchableOpacity
                 onPress={onTakePhoto}
@@ -120,25 +112,25 @@ const ProfilScreen = () => {
                   height: 50,
                   borderRadius: 30,
                   borderWidth: 1,
-                  borderColor: '#000',
                   width: '80%',
+                  borderColor: '#000',
                 }}>
-                <Text style={{ fontSize: 20 }}>Fotoğraf Çek</Text>
+                <Text style={{ fontSize: 20, color: '#000' }}>Fotoğraf Çek</Text>
               </TouchableOpacity>
 
               <TouchableOpacity
                 onPress={onSelectImagePress}
                 style={{
-                  marginBottom: 20,
+                  margin: 20,
                   alignItems: 'center',
                   justifyContent: 'center',
                   height: 50,
                   borderRadius: 30,
                   borderWidth: 1,
-                  borderColor: '#000',
                   width: '80%',
+                  borderColor: '#000',
                 }}>
-                <Text style={{ fontSize: 20 }}>Kütüphaneden Seç</Text>
+                <Text style={{ fontSize: 20, color: '#000' }}>Kütüphaneden Seç</Text>
               </TouchableOpacity>
 
               {isUploading && (
@@ -149,40 +141,34 @@ const ProfilScreen = () => {
                     alignItems: 'center',
                     justifyContent: 'center',
                   }}>
-                  <ActivityIndicator size={50} color="#f00" />
-                  <Text style={{ fontSize: 20, margin: 20 }}>Uploading</Text>
-                  <Text style={{ fontSize: 20, margin: 20 }}>{((uploadTaskSnapshot.bytesTransferred / uploadTaskSnapshot.totalBytes) * 100).toFixed(2) + '% / 100%'}</Text>
+                  <ActivityIndicator size={50} color="#f00"></ActivityIndicator>
+                  <Text style={{ fontSize: 20, color: '#000', margin: 20 }}>Uploading</Text>
+                  <Text style={{ fontSize: 20, color: '#000', margin: 20 }}>{((uploadTaskSnapshot.bytesTransferred / uploadTaskSnapshot.totalBytes) * 100).toFixed(2) + '% / 100%'}</Text>
                 </View>
               )}
 
-              <Button onPress={() => setShowModal(!showModal)} title="Kapat" />
+              <Button color="#f00" onPress={() => setShowModal(!showModal)} title="Kapat"></Button>
             </View>
           </Modal>
 
           <TouchableOpacity
             onPress={() => setShowModal(!showModal)}
             style={{
-              width: 100,
-              height: 100,
+              width: 80,
+              height: 80,
               borderRadius: 40,
+              backgroundColor: '#f00',
               margin: 10,
             }}>
-            <ImageBackground
-              source={{
-                uri: currentUser.ImageUrl,
-              }}
-              imageStyle={{ borderRadius: 50 }}
-              style={{
-                flex: 1,
-              }}></ImageBackground>
+            <Image source={{ uri: currentUser.ImageUrl }} style={{ flex: 1, resizeMode: 'cover', borderRadius: 50 }}></Image>
 
             <View
               style={{
                 position: 'absolute',
                 bottom: 0,
                 right: 0,
-                width: 36,
-                height: 36,
+                width: 25,
+                height: 25,
                 borderRadius: 20,
                 backgroundColor: '#000',
                 borderWidth: 2,
@@ -190,19 +176,21 @@ const ProfilScreen = () => {
                 justifyContent: 'center',
                 borderColor: '#fff',
               }}>
-              <Icon name="camera" size={16} color="#fff" />
+              <Icon name="camera" size={15} color="#fff"></Icon>
             </View>
           </TouchableOpacity>
 
-          <Text style={{ fontSize: 24 }}>{currentUser.Name}</Text>
+          <Text style={{ fontSize: 20, color: '#000' }}>{currentUser.Name}</Text>
 
           <TextInput
             name="name"
             placeholder="Adınız"
+            placeholderTextColor={'#aaa'}
             style={{
               height: 50,
+              color: '#000',
               width: '90%',
-              padding: 10,
+              paddingLeft: 5,
               margin: 10,
               borderColor: '#000',
               borderWidth: 1,
@@ -210,22 +198,23 @@ const ProfilScreen = () => {
               fontSize: 16,
             }}
             onChangeText={value => setCurrentUserName(value)}
-            value={currentUserName}
-          />
+            value={currentUserName}></TextInput>
 
-          <Button onPress={() => updateCurrentUser()} title="Güncelle" />
+          <View style={{ width: '60%' }}>
+            <Button color="#f00" onPress={() => updateCurrentUser()} title="Güncelle"></Button>
+          </View>
 
           <TouchableOpacity
             onPress={signout}
             style={{
               position: 'absolute',
-              top: 30,
-              right: 30,
-
+              right: 20,
+              top: 20,
               alignItems: 'center',
               justifyContent: 'center',
+              borderRadius: 30,
             }}>
-            <IconAD name="logout" size={32} color="#f00" />
+            <Icon2 name="logout" size={35} color="#000"></Icon2>
           </TouchableOpacity>
         </View>
       )}
