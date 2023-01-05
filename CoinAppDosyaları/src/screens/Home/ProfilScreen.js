@@ -1,54 +1,41 @@
-import React, {useContext, useState, useEffect} from 'react';
-import {
-  View,
-  Text,
-  SafeAreaView,
-  ScrollView,
-  TouchableOpacity,
-  TextInput,
-  Button,
-  ImageBackground,
-  Modal,
-} from 'react-native';
-import {AuthContext} from '../../navigation/AuthProvider';
+import React, { useContext, useState, useEffect } from 'react';
+import { View, Text, SafeAreaView, ScrollView, TouchableOpacity, TextInput, Button, ImageBackground, Modal } from 'react-native';
+import { AuthContext } from '../../navigation/AuthProvider';
 import firestore from '@react-native-firebase/firestore';
-import {launchCamera,  } from 'react-native-image-picker';
+import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 import storage from '@react-native-firebase/storage';
 import Loading from '../../utils/Loading';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import IconAD from 'react-native-vector-icons/AntDesign';
 
-import {ActivityIndicator} from 'react-native-paper';
+import { ActivityIndicator } from 'react-native-paper';
 
 const ProfilScreen = () => {
   const [isLoading, setIsloading] = useState(false);
+
   const [isUploading, setIsUploading] = useState(false);
   const [downloadURL, setDownloadURL] = useState();
   const [uploadTask, setUploadTask] = useState();
   const [uploadTaskSnapshot, setUploadTaskSnapshot] = useState({});
-  const {signout, user} = useContext(AuthContext);
+
+  const { signout, user } = useContext(AuthContext);
   const [currentUser, setCurrentUser] = useState({});
   const [currentUserName, setCurrentUserName] = useState('');
   const usersColl = firestore().collection('users');
   const [showModal, setShowModal] = useState(false);
 
   const onTakePhoto = async () => {
-    await launchCamera({mediaType: 'photo', saveToPhotos: true}, onMediaSelect);
+    await launchCamera({ mediaType: 'photo', saveToPhotos: true }, onMediaSelect);
   };
 
   const onSelectImagePress = async () => {
-    await launchImageLibrary(
-      {mediaType: 'photo', saveToPhotos: true},
-      onMediaSelect,
-    );
+    await launchImageLibrary({ mediaType: 'photo', saveToPhotos: true }, onMediaSelect);
   };
 
   const onMediaSelect = async media => {
     if (!media.didCancel) {
       setIsUploading(true);
-      const reference = storage().ref(
-        'Uploads/Users/' + media.assets[0].fileName,
-      );
+      const reference = storage().ref('Uploads/Users/' + media.assets[0].fileName);
 
       const task = reference.putFile(media.assets[0].uri);
 
@@ -98,7 +85,7 @@ const ProfilScreen = () => {
   }, []);
 
   return (
-    <SafeAreaView style={{flex: 1, alignItems: 'center'}}>
+    <SafeAreaView style={{ flex: 1, alignItems: 'center' }}>
       {isLoading ? (
         <Loading />
       ) : (
@@ -137,7 +124,7 @@ const ProfilScreen = () => {
                   borderColor: '#000',
                   width: '80%',
                 }}>
-                <Text style={{fontSize: 20}}>Fotoğraf Çek</Text>
+                <Text style={{ fontSize: 20 }}>Fotoğraf Çek</Text>
               </TouchableOpacity>
 
               <TouchableOpacity
@@ -152,7 +139,7 @@ const ProfilScreen = () => {
                   borderColor: '#000',
                   width: '80%',
                 }}>
-                <Text style={{fontSize: 20}}>Kütüphaneden Seç</Text>
+                <Text style={{ fontSize: 20 }}>Kütüphaneden Seç</Text>
               </TouchableOpacity>
 
               {isUploading && (
@@ -164,14 +151,8 @@ const ProfilScreen = () => {
                     justifyContent: 'center',
                   }}>
                   <ActivityIndicator size={50} color="#f00" />
-                  <Text style={{fontSize: 20, margin: 20}}>Uploading</Text>
-                  <Text style={{fontSize: 20, margin: 20}}>
-                    {(
-                      (uploadTaskSnapshot.bytesTransferred /
-                        uploadTaskSnapshot.totalBytes) *
-                      100
-                    ).toFixed(2) + '% / 100%'}
-                  </Text>
+                  <Text style={{ fontSize: 20, margin: 20 }}>Uploading</Text>
+                  <Text style={{ fontSize: 20, margin: 20 }}>{((uploadTaskSnapshot.bytesTransferred / uploadTaskSnapshot.totalBytes) * 100).toFixed(2) + '% / 100%'}</Text>
                 </View>
               )}
 
@@ -191,7 +172,7 @@ const ProfilScreen = () => {
               source={{
                 uri: currentUser.ImageUrl,
               }}
-              imageStyle={{borderRadius: 50}}
+              imageStyle={{ borderRadius: 50 }}
               style={{
                 flex: 1,
               }}></ImageBackground>
@@ -214,7 +195,7 @@ const ProfilScreen = () => {
             </View>
           </TouchableOpacity>
 
-          <Text style={{fontSize: 24}}>{currentUser.Name}</Text>
+          <Text style={{ fontSize: 24 }}>{currentUser.Name}</Text>
 
           <TextInput
             name="name"
