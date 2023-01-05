@@ -134,7 +134,7 @@ const ProfilScreen = () => {
           <TextInput
             name="name"
             placeholder="Adınız"
-            style={{ height: 50, width: '90%', padding: 10, margin: 10, borderColor: '#000', borderWidth: 1, borderRadius: 10, fontSize: 16 }}
+            style={{ height: 50, width: '70%', padding: 10, margin: 10, borderColor: '#000', borderWidth: 1, borderRadius: 10, fontSize: 16 }}
             onChangeText={value => setCurrentUserName(value)}
             value={currentUserName}
           />

@@ -18,6 +18,7 @@ const BottomTabStack = () => {
       initialRouteName="HomeScreen"
       screenOptions={{
         activeTintColor: '#f00',
+        headerShown:false,
         inactiveTintColor: '#fff',
         style: { height: 70, backgroundColor: '#000', padding: 10 },
         labelStyle: { textAlign: 'center', fontSize: 18 },
