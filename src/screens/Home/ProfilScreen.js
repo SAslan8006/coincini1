@@ -1,7 +1,8 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { View, Text, SafeAreaView, ScrollView, TouchableOpacity, FlatList, Button } from 'react-native';
+import { View, Text, SafeAreaView, ScrollView, TouchableOpacity, TextInput, Button, ImageBackground, Modal, Image } from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome5';
+
 import { AuthContext } from '../../navigation/AuthProvider';
-import { deviceHeight, deviceWidth } from '../../utils/dimensions';
 import firestore from '@react-native-firebase/firestore';
 import Loading from '../../utils/Loading';
 
@@ -9,103 +10,53 @@ const ProfilScreen = () => {
   const [isLoading, setIsloading] = useState(false);
   const { signout, user } = useContext(AuthContext);
   const [currentUser, setCurrentUser] = useState({});
-  const [userCoinList, setUserCoinList] = useState([]);
-  const [coinList, setCoinList] = useState([]);
-
+  const [currentUserName, setCurrentUserName] = useState('');
   const usersColl = firestore().collection('users');
-  const coinsColl = firestore().collection('coins');
-  const userCoinsColl = firestore().collection('userCoins');
 
-  const renderItem = ({ item, index }) => {
-    return (
-      <TouchableOpacity
-        key={item.id}
-        style={{
-          flexDirection: 'row',
-          width: '95%',
-          height: 60,
-          borderWidth: 1,
-          margin: 10,
-          borderRadius: 20,
-          padding: 10,
-          justifyContent: 'space-between',
-          alignItems: 'center',
-        }}>
-        <View style={{ flex: 1 }}>
-          {coinList.map(x => {
-            if (x.id == item.coinID) {
-              return <Text key={x.id}>{x.name}</Text>;
-            }
-          })}
-        </View>
-
-        <View style={{ flex: 1 }}>
-          <Text style={{ textAlign: 'right', fontSize: 18 }}>{item.value}</Text>
-        </View>
-      </TouchableOpacity>
-    );
-  };
-
-  useEffect(() => {
-    setIsloading(true);
+  const getCurrentUser = async () => {
     usersColl
       .doc(user.uid)
       .get()
       .then(result => {
         setCurrentUser(result.data());
-        userCoinsColl.onSnapshot(querySnapshot => {
-          let list = [];
-          querySnapshot.forEach(doc => {
-            const { userID, coinID, value } = doc.data();
-
-            if (userID == user.uid) {
-              list.push({
-                id: doc.id,
-                userID,
-                coinID,
-                value,
-              });
-            }
-          });
-
-          setUserCoinList(list);
-        });
-
-        coinsColl.onSnapshot(querySnapshot => {
-          let list = [];
-          querySnapshot.forEach(doc => {
-            const { name } = doc.data();
-            list.push({
-              id: doc.id,
-              name,
-            });
-          });
-
-          setCoinList(list);
-        });
+        setCurrentUserName(result.data().Name);
       });
+  };
+
+  useEffect(() => {
+    setIsloading(true);
+    getCurrentUser();
     setIsloading(false);
   }, []);
+
   return (
     <SafeAreaView style={{ flex: 1, alignItems: 'center' }}>
       {isLoading ? (
         <Loading />
       ) : (
         <View style={{ flex: 1, width: '100%', justifyContent: 'center', alignItems: 'center' }}>
-          <View
-            style={{ margin: 20, padding: 20, flex: 1, alignItems: 'center', justifyContent: 'center', borderWidth: 5, width: deviceWidth / 2, height: deviceHeight / 8, borderRadius: deviceWidth }}>
-            <Text>Merhaba </Text>
-            <Text style={{ fontWeight: 'bold', fontSize: 18, textAlign: 'center' }}>{user.displayName}</Text>
-            <View style={{ flexDirection: 'row' }}>
-              <Text style={{ fontWeight: 'bold', fontSize: 24, textAlign: 'center' }}>{currentUser.TRY}</Text>
-              <View style={{ justifyContent: 'flex-end', marginBottom: 2, marginLeft: 5 }}>
-                <Text>TL</Text>
-              </View>
+          <TouchableOpacity style={{ width: 100, height: 100, borderRadius: 40, margin: 10 }}>
+            <Image source={{ uri: currentUser.ImageUrl }} imageStyle={{ borderRadius: 50 }} style={{ flex: 1 }}></Image>
+            <View
+              style={{
+                position: 'absolute',
+                bottom: 0,
+                right: 0,
+                width: 36,
+                height: 36,
+                borderRadius: 20,
+                backgroundColor: '#000',
+                borderWidth: 2,
+                alignItems: 'center',
+                justifyContent: 'center',
+                borderColor: '#fff',
+              }}>
+              <Icon name="camera" size={16} color="#fff" />
             </View>
-          </View>
-          <View style={{ flex: 3, width: '90%' }}>
-            <FlatList style={{ flex: 1, width: '100%' }} data={userCoinList} keyExtractor={item => item.id} renderItem={renderItem} />
-          </View>
+          </TouchableOpacity>
+
+          <Text style={{ fontSize: 24 }}>{currentUser.Name}</Text>
+
           <Button color="#f00" onPress={() => signout()} title="Cıkıs" />
         </View>
       )}
