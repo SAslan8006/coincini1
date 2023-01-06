@@ -1,1 +1,6 @@
-# coincini1
+# Coin Cini
+## App bilgileri
+  Mehmet kasım suların dersleri izlenerek ana yapısı geliştirilmiştir. İçerik sürekli geliştirilmektedir. 
+
+## Uygulama Fotoları
+<img src="https://user-images.githubusercontent.com/109723263/211081137-a6190d8c-22b3-40bd-841d-c919027c6fc6.png"  width="200" height="400"><img src="https://user-images.githubusercontent.com/109723263/211081207-78ecd4e3-4d2f-43de-ae6a-b3351c260c50.png" width="200" height="400"><img src="https://user-images.githubusercontent.com/109723263/211081181-c9a8464a-654d-4b5e-a954-bb5f3bd90b43.png" width="200" height="400"><img src="https://user-images.githubusercontent.com/109723263/211081348-a0f131e2-285a-4477-9223-4386b011f645.png" width="200" height="400"><img src="https://user-images.githubusercontent.com/109723263/211081372-9966faf3-8df3-4430-be58-3bcc1e1970ea.png" width="200" height="400"><img src="https://user-images.githubusercontent.com/109723263/211081409-81552a4b-7c14-452f-8929-b624ed77a7d8.png" width="200" height="400"><img src="https://user-images.githubusercontent.com/109723263/211081484-7626bfc6-317a-485e-a061-c9e96c149302.png" width="200" height="400"><img src="https://user-images.githubusercontent.com/109723263/211081512-8ef28213-db96-4967-ae08-e704ef2d661a.png" width="200" height="400"><img src="https://user-images.githubusercontent.com/109723263/211082481-dece6e58-42df-4113-a2ac-1abb6ec99979.png" width="200" height="400"><img src="https://user-images.githubusercontent.com/109723263/211082659-97c31807-adb1-411d-b35a-fa5207ea9b18.png" width="200" height="400">
